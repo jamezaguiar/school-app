@@ -11,7 +11,7 @@ public class Servant {
     private ArrayList<Student> students = new ArrayList();
     private ArrayList<Teacher> teachers = new ArrayList();
 
-    public Student createStudent(String name, String password, long matriculation) throws StudentAlreadyExistsException {
+    Student createStudent(String name, String password, long matriculation) throws StudentAlreadyExistsException {
         for (Student s : this.students) {
             if (s.getMatriculation() == matriculation) {
                 throw new StudentAlreadyExistsException("Student Already Exists!");
@@ -22,7 +22,7 @@ public class Servant {
         return s;
     }
 
-    public Teacher createTeacher(String name, String password, long siape) throws TeacherAlreadyExistsException {
+    Teacher createTeacher(String name, String password, long siape) throws TeacherAlreadyExistsException {
         for (Teacher t : this.teachers) {
             if (t.getSiape() == siape) {
                 throw new TeacherAlreadyExistsException("Teacher Already Exists!");
@@ -31,5 +31,21 @@ public class Servant {
         Teacher t = new Teacher(name, password, siape);
         this.teachers.add(t);
         return t;
+    }
+
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(ArrayList<Student> students) {
+        this.students = students;
+    }
+
+    public ArrayList<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(ArrayList<Teacher> teachers) {
+        this.teachers = teachers;
     }
 }
