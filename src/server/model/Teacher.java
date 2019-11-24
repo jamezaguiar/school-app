@@ -3,9 +3,9 @@ package server.model;
 public class Teacher {
     private String name;
     private String password;
-    private long siape;
+    private String siape;
 
-    public Teacher(String name, String password, long siape) {
+    public Teacher(String name, String password, String siape) {
         this.name = name;
         this.password = password;
         this.siape = siape;
@@ -27,11 +27,11 @@ public class Teacher {
         this.password = password;
     }
 
-    public long getSiape() {
+    public String getSiape() {
         return siape;
     }
 
-    public void setSiape(long siape) {
+    public void setSiape(String siape) {
         this.siape = siape;
     }
 

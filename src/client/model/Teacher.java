@@ -1,7 +1,5 @@
 package client.model;
 
-import java.util.ArrayList;
-
 public class Teacher {
     private String name;
     private String password;

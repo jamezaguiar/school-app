@@ -23,7 +23,7 @@ public class SkeletonServant {
         information = new Gson().fromJson(args, Information.class);
         try {
             student = servant.createStudent(information.getName(), information.getPassword(), information.getMatriculationOrSiape());
-        } catch (StudentAlreadyExistsException e){
+        } catch (StudentAlreadyExistsException e) {
             System.out.println(e.getMessage());
             return packJson(e.getMessage());
         }
@@ -31,14 +31,12 @@ public class SkeletonServant {
     }
 
     public String createTeacher(String args) {
-        information = new Gson().fromJson(args,Information.class);
+        information = new Gson().fromJson(args, Information.class);
         try {
-            teacher = servant.createTeacher(information.getName(),information.getPassword(),information.getMatriculationOrSiape());
-
+            teacher = servant.createTeacher(information.getName(), information.getPassword(), information.getMatriculationOrSiape());
         } catch (TeacherAlreadyExistsException e) {
             return packJson(e.getMessage());
         }
-        System.out.println(teacher);
         return packJson(teacher.toString());
     }
 }

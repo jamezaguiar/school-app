@@ -2,12 +2,12 @@ package client.view;
 
 import client.controller.Proxy;
 
-import java.net.UnknownHostException;
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) throws IOException {
         Proxy proxy = new Proxy();
 
-        proxy.createStudent("Jamerson","123123123",418866);
+        proxy.createTeacher("Jamerson", "123123123", "418866");
     }
 }

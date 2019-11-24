@@ -3,9 +3,9 @@ package server.model;
 public class Student {
     private String name;
     private String password;
-    private long matriculation;
+    private String matriculation;
 
-    public Student(String name, String password, long matriculation) {
+    public Student(String name, String password, String matriculation) {
         this.name = name;
         this.password = password;
         this.matriculation = matriculation;
@@ -27,11 +27,11 @@ public class Student {
         this.password = password;
     }
 
-    public long getMatriculation() {
+    public String getMatriculation() {
         return matriculation;
     }
 
-    public void setMatriculation(long matriculation) {
+    public void setMatriculation(String matriculation) {
         this.matriculation = matriculation;
     }
 

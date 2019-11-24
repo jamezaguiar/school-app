@@ -3,7 +3,7 @@ package server.model;
 public class Information {
     private String name;
     private String password;
-    private long matriculationOrSiape;
+    private String matriculationOrSiape;
     private String reply;
 
     public Information() {
@@ -13,7 +13,7 @@ public class Information {
         this.reply = reply;
     }
 
-    public Information(String name, String password, long matriculationOrSiape) {
+    public Information(String name, String password, String matriculationOrSiape) {
         this.name = name;
         this.password = password;
         this.matriculationOrSiape = matriculationOrSiape;
@@ -35,11 +35,11 @@ public class Information {
         this.password = password;
     }
 
-    public long getMatriculationOrSiape() {
+    public String getMatriculationOrSiape() {
         return matriculationOrSiape;
     }
 
-    public void setMatriculationOrSiape(long matriculationOrSiape) {
+    public void setMatriculationOrSiape(String matriculationOrSiape) {
         this.matriculationOrSiape = matriculationOrSiape;
     }
 
