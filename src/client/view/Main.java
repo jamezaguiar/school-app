@@ -8,6 +8,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Proxy proxy = new Proxy();
 
-        proxy.createTeacher("Jamerson", "123123123", "418866");
+        System.out.println(proxy.createStudent("Jamerson", "123123123", "418866"));
     }
 }

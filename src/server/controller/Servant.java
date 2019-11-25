@@ -8,28 +8,28 @@ import server.model.Teacher;
 import java.util.ArrayList;
 
 public class Servant {
-    private ArrayList<Student> students = new ArrayList();
-    private ArrayList<Teacher> teachers = new ArrayList();
+    private static ArrayList<Student> students = new ArrayList();
+    private static ArrayList<Teacher> teachers = new ArrayList();
 
     Student createStudent(String name, String password, String matriculation) throws StudentAlreadyExistsException {
-        for (Student s : this.students) {
+        for (Student s : students) {
             if (s.getMatriculation().equals(matriculation)) {
                 throw new StudentAlreadyExistsException("Student Already Exists!");
             }
         }
         Student s = new Student(name, password, matriculation);
-        this.students.add(s);
+        students.add(s);
         return s;
     }
 
     Teacher createTeacher(String name, String password, String siape) throws TeacherAlreadyExistsException {
-        for (Teacher t : this.teachers) {
+        for (Teacher t : teachers) {
             if (t.getSiape().equals(siape)) {
                 throw new TeacherAlreadyExistsException("Teacher Already Exists!");
             }
         }
         Teacher t = new Teacher(name, password, siape);
-        this.teachers.add(t);
+        teachers.add(t);
         return t;
     }
 
@@ -38,7 +38,7 @@ public class Servant {
     }
 
     public void setStudents(ArrayList<Student> students) {
-        this.students = students;
+        Servant.students = students;
     }
 
     public ArrayList<Teacher> getTeachers() {
@@ -46,6 +46,6 @@ public class Servant {
     }
 
     public void setTeachers(ArrayList<Teacher> teachers) {
-        this.teachers = teachers;
+        Servant.teachers = teachers;
     }
 }

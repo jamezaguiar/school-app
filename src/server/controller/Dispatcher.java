@@ -17,7 +17,6 @@ public class Dispatcher {
             Class objRef = Class.forName("server.controller.Skeleton" + request.getObjectReference());
             String methodName = request.getMethodId();
             method = objRef.getMethod(methodName, String.class);
-            System.out.println((request.getArguments()));
             reply = (String) (method.invoke(objRef.newInstance(), request.getArguments()));
 
         } catch (Exception e) {

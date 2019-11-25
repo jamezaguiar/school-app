@@ -15,8 +15,7 @@ public class SkeletonServant {
 
     private String packJson(String reply) {
         information = new Information(reply);
-        String json = new Gson().toJson(information);
-        return json;
+        return new Gson().toJson(information);
     }
 
     public String createStudent(String args) {
@@ -24,8 +23,8 @@ public class SkeletonServant {
         try {
             student = servant.createStudent(information.getName(), information.getPassword(), information.getMatriculationOrSiape());
         } catch (StudentAlreadyExistsException e) {
-            System.out.println(e.getMessage());
-            return packJson(e.getMessage());
+            System.out.println("Exception: " + e.getMessage());
+            return packJson("Exception: " + e.getMessage());
         }
         return packJson(student.toString());
     }
@@ -35,11 +34,11 @@ public class SkeletonServant {
         try {
             teacher = servant.createTeacher(information.getName(), information.getPassword(), information.getMatriculationOrSiape());
         } catch (TeacherAlreadyExistsException e) {
-            return packJson(e.getMessage());
+            System.out.println("Exception: " + e.getMessage());
+            return packJson("Exception: " + e.getMessage());
         }
         return packJson(teacher.toString());
     }
-
 
 
 }

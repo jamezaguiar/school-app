@@ -20,7 +20,6 @@ public class Proxy {
     public String doOperation(String objectReference, String methodId, String arguments) throws IOException {
         String data = packJSON(objectReference, methodId, arguments);
         udpClient.sendRequest(data);
-        System.out.println(data);
         Message reply = unpackJSON(udpClient.getResponse());
         return reply.getArguments();
     }
@@ -38,15 +37,14 @@ public class Proxy {
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant", "createTeacher", args);
         information = new Gson().fromJson(reply, Information.class);
-        System.out.println(information.getReply());
         return information.getReply();
     }
 
-    public String packJSON(String objectReference, String methodId, String arguments) {
+    private String packJSON(String objectReference, String methodId, String arguments) {
         return new Gson().toJson(new Message(0, 0, objectReference, methodId, arguments));
     }
 
-    public Message unpackJSON(String message) {
+    private Message unpackJSON(String message) {
         return new Gson().fromJson(message, (Type) Message.class);
     }
 

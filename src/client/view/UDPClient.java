@@ -4,16 +4,16 @@ import java.io.IOException;
 import java.net.*;
 
 public class UDPClient {
-    DatagramSocket clientSocket = new DatagramSocket();
-    InetAddress IPAddress = InetAddress.getByName("localhost");
-    int port = 3333;
+    private DatagramSocket clientSocket = new DatagramSocket();
+    private InetAddress IPAddress = InetAddress.getByName("localhost");
+    private int port = 3333;
 
 
     public UDPClient() throws SocketException, UnknownHostException {
     }
 
     public void sendRequest(String message) throws IOException {
-        byte[] sendData = new byte[1024];
+        byte[] sendData;
         sendData = message.getBytes();
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
         clientSocket.send(sendPacket);
