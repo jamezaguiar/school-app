@@ -6,7 +6,7 @@ import java.net.*;
 public class UDPClient {
     DatagramSocket clientSocket = new DatagramSocket();
     InetAddress IPAddress = InetAddress.getByName("localhost");
-    int port = 5678;
+    int port = 3333;
 
 
     public UDPClient() throws SocketException, UnknownHostException {
@@ -23,7 +23,7 @@ public class UDPClient {
         byte[] receiveData = new byte[1024];
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         clientSocket.receive(receivePacket);
-        return new String(receivePacket.getData());
+        return new String(receivePacket.getData(), receivePacket.getOffset(), receivePacket.getLength());
     }
 }
 
