@@ -4,13 +4,12 @@ public class Information {
     private String name;
     private String password;
     private String matriculationOrSiape;
-    private String reply;
 
     public Information() {
     }
 
-    public Information(String reply) {
-        this.reply = reply;
+    public Information(String matriculationOrSiape) {
+        this.matriculationOrSiape = matriculationOrSiape;
     }
 
     public Information(String name, String password, String matriculationOrSiape) {
@@ -43,13 +42,7 @@ public class Information {
         this.matriculationOrSiape = matriculationOrSiape;
     }
 
-    public String getReply() {
-        return reply;
-    }
 
-    public void setReply(String reply) {
-        this.reply = reply;
-    }
 
     @Override
     public String toString() {
@@ -57,7 +50,6 @@ public class Information {
                 "name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", matriculationOrSiape=" + matriculationOrSiape +
-                ", reply='" + reply + '\'' +
                 '}';
     }
 }

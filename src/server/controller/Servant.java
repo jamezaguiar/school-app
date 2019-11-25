@@ -1,7 +1,9 @@
 package server.controller;
 
 import server.exception.StudentAlreadyExistsException;
+import server.exception.StudentNotFoundException;
 import server.exception.TeacherAlreadyExistsException;
+import server.exception.TeacherNotFoundException;
 import server.model.Student;
 import server.model.Teacher;
 
@@ -22,6 +24,26 @@ public class Servant {
         return s;
     }
 
+    Student readStudent(String matriculation) throws StudentNotFoundException {
+        for (Student s : students) {
+            if (s.getMatriculation().equals(matriculation)) {
+                return s;
+            }
+        }
+        throw new StudentNotFoundException("Student Not Found!");
+    }
+
+    String deleteStudent(String password, String matriculation) throws StudentNotFoundException {
+        for (Student s : students) {
+            if (s.getPassword().equals(password) && s.getMatriculation().equals(matriculation)) {
+                String name= s.getName();
+                students.remove(s);
+                return "Student " + name + " removed successfully!";
+            }
+        }
+        throw new StudentNotFoundException("Student Not Found!");
+    }
+
     Teacher createTeacher(String name, String password, String siape) throws TeacherAlreadyExistsException {
         for (Teacher t : teachers) {
             if (t.getSiape().equals(siape)) {
@@ -31,6 +53,26 @@ public class Servant {
         Teacher t = new Teacher(name, password, siape);
         teachers.add(t);
         return t;
+    }
+
+    Teacher readTeacher(String siape) throws TeacherNotFoundException {
+        for (Teacher t : teachers) {
+            if (t.getSiape().equals(siape)) {
+                return t;
+            }
+        }
+        throw new TeacherNotFoundException("Teacher Not Found!");
+    }
+
+    String deleteTeacher(String password, String siape) throws TeacherNotFoundException {
+        for (Teacher t : teachers) {
+            if (t.getPassword().equals(password) && t.getSiape().equals(siape)) {
+                String name= t.getName();
+                students.remove(t);
+                return "Teacher " + name + " removed successfully!";
+            }
+        }
+        throw new TeacherNotFoundException("Teacher Not Found!");
     }
 
     public ArrayList<Student> getStudents() {
