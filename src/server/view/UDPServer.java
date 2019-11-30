@@ -1,12 +1,14 @@
 package server.view;
 
 import com.google.gson.Gson;
+import server.connection.HTTPHandler;
 import server.controller.Dispatcher;
 import server.model.Message;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.MalformedURLException;
 
 public class UDPServer extends Thread {
     private DatagramPacket receivePacket;
@@ -20,7 +22,10 @@ public class UDPServer extends Thread {
         this.start();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
+
+
         try {
             DatagramSocket serverSocket = new DatagramSocket(3333);
             UDPServer c = new UDPServer(serverSocket);
@@ -28,11 +33,13 @@ public class UDPServer extends Thread {
         } catch (IOException e) {
             System.out.println("Listen :" + e.getMessage());
         }
+
+
     }
 
     @Override
     public void run() {
-
+        while(true)
         try {
             while (true) {
                 Message request = unpackRequest(getRequest());
