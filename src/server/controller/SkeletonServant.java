@@ -40,12 +40,13 @@ public class SkeletonServant {
         information = new Gson().fromJson(args, Information.class);
         try {
             student = servant.readStudent(information.getMatriculationOrSiape());
-        } catch (StudentNotFoundException e) {
+        } catch (StudentNotFoundException | IOException e) {
             System.out.println("Exception: " + e.getMessage());
             return packJson("Exception: " + e.getMessage());
         }
         return packJson(student.toString());
     }
+
 
     public String deleteStudent(String args) {
         information = new Gson().fromJson(args, Information.class);
@@ -62,7 +63,7 @@ public class SkeletonServant {
         information = new Gson().fromJson(args, Information.class);
         try {
             teacher = servant.createTeacher(information.getName(), information.getPassword(), information.getMatriculationOrSiape());
-        } catch (TeacherAlreadyExistsException e) {
+        } catch (TeacherAlreadyExistsException | IOException e) {
             System.out.println("Exception: " + e.getMessage());
             return packJson("Exception: " + e.getMessage());
         }

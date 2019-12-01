@@ -11,6 +11,7 @@ import server.model.Student;
 import server.model.Teacher;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
@@ -31,14 +32,14 @@ public class Servant {
         return new Gson().fromJson(response, Student.class);
     }
 
-    Student readStudent(String matriculation) throws StudentNotFoundException {
-        for (Student s : students) {
-            if (s.getMatriculation().equals(matriculation)) {
-                return s;
-            }
-        }
-        throw new StudentNotFoundException("Student Not Found!");
+    Student readStudent(String matriculation) throws StudentNotFoundException, IOException {
+        HTTPHandler http =  new HTTPHandler();
+        String response = http.GETHandler("students/" + matriculation);
+        return new Gson().fromJson(response, Student.class);
     }
+
+
+
 
     String deleteStudent(String password, String matriculation) throws StudentNotFoundException {
         for (Student s : students) {
@@ -51,15 +52,16 @@ public class Servant {
         throw new StudentNotFoundException("Student Not Found!");
     }
 
-    Teacher createTeacher(String name, String password, String siape) throws TeacherAlreadyExistsException {
-        for (Teacher t : teachers) {
-            if (t.getSiape().equals(siape)) {
-                throw new TeacherAlreadyExistsException("Teacher Already Exists!");
-            }
-        }
-        Teacher t = new Teacher(name, password, siape);
-        teachers.add(t);
-        return t;
+    Teacher createTeacher(String name, String password, String siape) throws TeacherAlreadyExistsException, IOException {
+        JsonObject teacherPost = new JsonObject();
+        teacherPost.addProperty("name", name);
+        teacherPost.addProperty("password", password);
+        teacherPost.addProperty("siape", siape);
+
+        HTTPHandler http = new HTTPHandler();
+        String response = http.POSTHandler(teacherPost.toString(), "teachers");
+
+        return new Gson().fromJson(response, Teacher.class);
     }
 
     Teacher readTeacher(String siape) throws TeacherNotFoundException {

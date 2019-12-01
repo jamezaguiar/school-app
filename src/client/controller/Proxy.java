@@ -42,6 +42,7 @@ public class Proxy {
         return serverReply.getReply();
     }
 
+
     public String deleteStudent(String password, String matriculation) throws IOException {
         Information information = new Information(password,matriculation);
         String args = new Gson().toJson(information);
