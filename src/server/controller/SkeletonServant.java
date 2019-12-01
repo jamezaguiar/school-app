@@ -10,6 +10,8 @@ import server.model.Reply;
 import server.model.Student;
 import server.model.Teacher;
 
+import java.io.IOException;
+
 public class SkeletonServant {
     Information information;
     Reply reply;
@@ -27,7 +29,7 @@ public class SkeletonServant {
         information = new Gson().fromJson(args, Information.class);
         try {
             student = servant.createStudent(information.getName(), information.getPassword(), information.getMatriculationOrSiape());
-        } catch (StudentAlreadyExistsException e) {
+        } catch (StudentAlreadyExistsException | IOException e) {
             System.out.println("Exception: " + e.getMessage());
             return packJson("Exception: " + e.getMessage());
         }

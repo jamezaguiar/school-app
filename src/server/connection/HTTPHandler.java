@@ -36,7 +36,7 @@ public class HTTPHandler {
         return content.toString();
     }
 
-    public String PostHandler(String params, String query) throws IOException {
+    public String POSTHandler(String params, String query) throws IOException {
         URL route = new URL(this.url + query);
         HttpURLConnection con = (HttpURLConnection) route.openConnection();
         con.setRequestMethod("POST");

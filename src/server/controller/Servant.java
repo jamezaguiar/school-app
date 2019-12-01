@@ -1,5 +1,8 @@
 package server.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import server.connection.HTTPHandler;
 import server.exception.StudentAlreadyExistsException;
 import server.exception.StudentNotFoundException;
 import server.exception.TeacherAlreadyExistsException;
@@ -7,21 +10,25 @@ import server.exception.TeacherNotFoundException;
 import server.model.Student;
 import server.model.Teacher;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class Servant {
+
     private static ArrayList<Student> students = new ArrayList();
     private static ArrayList<Teacher> teachers = new ArrayList();
 
-    Student createStudent(String name, String password, String matriculation) throws StudentAlreadyExistsException {
-        for (Student s : students) {
-            if (s.getMatriculation().equals(matriculation)) {
-                throw new StudentAlreadyExistsException("Student Already Exists!");
-            }
-        }
-        Student s = new Student(name, password, matriculation);
-        students.add(s);
-        return s;
+    Student createStudent(String name, String password, String matriculation) throws StudentAlreadyExistsException, IOException {
+        JsonObject studentPost = new JsonObject();
+        studentPost.addProperty("name", name);
+        studentPost.addProperty("password", password);
+        studentPost.addProperty("matriculation", matriculation);
+
+        HTTPHandler http = new HTTPHandler();
+        String response = http.POSTHandler(studentPost.toString(), "students");
+
+        return new Gson().fromJson(response, Student.class);
     }
 
     Student readStudent(String matriculation) throws StudentNotFoundException {
