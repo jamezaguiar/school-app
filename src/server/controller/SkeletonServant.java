@@ -11,11 +11,13 @@ import server.model.Student;
 import server.model.Teacher;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class SkeletonServant {
     Information information;
     Reply reply;
     Student student;
+    Student[] students;
     Teacher teacher;
     String result;
     private Servant servant = new Servant();
@@ -47,7 +49,17 @@ public class SkeletonServant {
         return packJson(student.toString());
     }
 
+    public String listStudents(String args) throws IOException {
+        information = new Gson().fromJson(args, Information.class);
+        try {
+            students = servant.listStudents();
+        }catch (IOException e){
+            System.out.println("Exception: " + e.getMessage());
+            return packJson("Exception: " + e.getMessage());
+        }
 
+        return packJson(Arrays.toString(students));
+    }
     public String deleteStudent(String args) {
         information = new Gson().fromJson(args, Information.class);
         try {

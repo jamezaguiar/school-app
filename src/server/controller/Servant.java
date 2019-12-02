@@ -38,7 +38,11 @@ public class Servant {
         return new Gson().fromJson(response, Student.class);
     }
 
-
+    Student[] listStudents() throws IOException {
+        HTTPHandler http =  new HTTPHandler();
+        String response = http.GETHandler("students");
+        return new Gson().fromJson(response, Student[].class);
+    }
 
 
     String deleteStudent(String password, String matriculation) throws StudentNotFoundException {
