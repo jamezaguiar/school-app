@@ -25,7 +25,7 @@ public class HTTPHandler {
 
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String input;
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
 
         while((input = in.readLine()) != null){
             content.append(input);
@@ -56,6 +56,31 @@ public class HTTPHandler {
             content.append(input);
         }
 
+        con.disconnect();
+        return content.toString();
+    }
+
+    public String DELETEHandler(String params, String query) throws IOException {
+        URL route = new URL(this.url + query);
+        HttpURLConnection con = (HttpURLConnection) route.openConnection();
+        con.setRequestMethod("DELETE");
+        con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        con.setRequestProperty("Accept", "application/json");
+        con.setDoOutput(true);
+
+
+        DataOutputStream out = new DataOutputStream(con.getOutputStream());
+        out.write(params.getBytes());
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String input;
+        StringBuilder content = new StringBuilder();
+
+        while((input = in.readLine()) != null){
+            content.append(input);
+        }
+
+        con.disconnect();
         return content.toString();
     }
 

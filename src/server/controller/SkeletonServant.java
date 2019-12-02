@@ -18,6 +18,7 @@ public class SkeletonServant {
     Reply reply;
     Student student;
     Student[] students;
+    Teacher[] teachers;
     Teacher teacher;
     String result;
     private Servant servant = new Servant();
@@ -64,7 +65,7 @@ public class SkeletonServant {
         information = new Gson().fromJson(args, Information.class);
         try {
             result = servant.deleteStudent(information.getPassword(),information.getMatriculationOrSiape());
-        } catch (StudentNotFoundException e){
+        } catch (StudentNotFoundException | IOException e){
             System.out.println("Exception: " + e.getMessage());
             return packJson("Exception: " + e.getMessage());
         }
@@ -86,18 +87,29 @@ public class SkeletonServant {
         information = new Gson().fromJson(args, Information.class);
         try {
             teacher = servant.readTeacher(information.getMatriculationOrSiape());
-        } catch (TeacherNotFoundException e) {
+        } catch (TeacherNotFoundException | IOException e) {
             System.out.println("Exception: " + e.getMessage());
             return packJson("Exception: " + e.getMessage());
         }
         return packJson(teacher.toString());
     }
 
+    public String listTeachers(String args) throws IOException {
+        information = new Gson().fromJson(args, Information.class);
+        try {
+            teachers = servant.listTeachers();
+        }catch (IOException e){
+            System.out.println("Exception: " + e.getMessage());
+            return packJson("Exception: " + e.getMessage());
+        }
+
+        return packJson(Arrays.toString(teachers));
+    }
     public String deleteTeacher(String args) {
         information = new Gson().fromJson(args, Information.class);
         try {
             result = servant.deleteTeacher(information.getPassword(),information.getMatriculationOrSiape());
-        } catch (TeacherNotFoundException e){
+        } catch (TeacherNotFoundException | IOException e){
             System.out.println("Exception: " + e.getMessage());
             return packJson("Exception: " + e.getMessage());
         }

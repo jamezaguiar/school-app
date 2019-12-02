@@ -45,15 +45,12 @@ public class Servant {
     }
 
 
-    String deleteStudent(String password, String matriculation) throws StudentNotFoundException {
-        for (Student s : students) {
-            if (s.getPassword().equals(password) && s.getMatriculation().equals(matriculation)) {
-                String name= s.getName();
-                students.remove(s);
-                return "Student " + name + " removed successfully!";
-            }
-        }
-        throw new StudentNotFoundException("Student Not Found!");
+    String deleteStudent(String password, String matriculation) throws StudentNotFoundException, IOException {
+        HTTPHandler http = new HTTPHandler();
+        JsonObject studentDelete = new JsonObject();
+        studentDelete.addProperty("password", password);
+        studentDelete.addProperty("matriculation", matriculation);
+        return http.DELETEHandler(studentDelete.toString(), "students");
     }
 
     Teacher createTeacher(String name, String password, String siape) throws TeacherAlreadyExistsException, IOException {
@@ -68,24 +65,23 @@ public class Servant {
         return new Gson().fromJson(response, Teacher.class);
     }
 
-    Teacher readTeacher(String siape) throws TeacherNotFoundException {
-        for (Teacher t : teachers) {
-            if (t.getSiape().equals(siape)) {
-                return t;
-            }
-        }
-        throw new TeacherNotFoundException("Teacher Not Found!");
+    Teacher readTeacher(String siape) throws TeacherNotFoundException, IOException {
+        HTTPHandler http =  new HTTPHandler();
+        String response = http.GETHandler("teachers/" + siape);
+        return new Gson().fromJson(response, Teacher.class);
     }
 
-    String deleteTeacher(String password, String siape) throws TeacherNotFoundException {
-        for (Teacher t : teachers) {
-            if (t.getPassword().equals(password) && t.getSiape().equals(siape)) {
-                String name= t.getName();
-                students.remove(t);
-                return "Teacher " + name + " removed successfully!";
-            }
-        }
-        throw new TeacherNotFoundException("Teacher Not Found!");
+    Teacher[] listTeachers() throws IOException {
+        HTTPHandler http =  new HTTPHandler();
+        String response = http.GETHandler("teachers");
+        return new Gson().fromJson(response, Teacher[].class);
+    }
+    String deleteTeacher(String password, String siape) throws TeacherNotFoundException, IOException {
+        HTTPHandler http = new HTTPHandler();
+        JsonObject teacherDelete = new JsonObject();
+        teacherDelete.addProperty("password", password);
+        teacherDelete.addProperty("siape", siape);
+        return http.DELETEHandler(teacherDelete.toString(), "teachers");
     }
 
     public ArrayList<Student> getStudents() {

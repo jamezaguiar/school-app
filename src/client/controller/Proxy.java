@@ -1,9 +1,6 @@
 package client.controller;
 
-import client.model.Information;
-import client.model.Message;
-import client.model.Reply;
-import client.model.Student;
+import client.model.*;
 import client.view.UDPClient;
 import com.google.gson.Gson;
 
@@ -65,20 +62,31 @@ public class Proxy {
         return serverReply.getReply();
     }
 
-    public String createTeacher(String name, String password, String siape) throws IOException {
+    public Teacher createTeacher(String name, String password, String siape) throws IOException {
         Information information = new Information(name, password, siape);
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant", "createTeacher", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
-        return serverReply.getReply();
+        String json = serverReply.getReply();
+        return new Gson().fromJson(json, Teacher.class);
     }
 
-    public String readTeacher(String siape) throws IOException {
+    public Teacher readTeacher(String siape) throws IOException {
         Information information = new Information(siape);
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant", "readTeacher", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
-        return serverReply.getReply();
+        String json = serverReply.getReply() ;
+        return new Gson().fromJson(json, Teacher.class);
+    }
+
+    public Teacher[] listTeachers() throws IOException {
+        Information information = new Information();
+        String args = new Gson().toJson(information);
+        String reply = doOperation("Servant", "listTeachers", args);
+        Reply serverReply = new Gson().fromJson(reply, Reply.class);
+        String json = serverReply.getReply() ;
+        return new Gson().fromJson(json, Teacher[].class);
     }
 
     public String deleteTeacher(String password, String siape) throws IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
@@ -86,7 +94,6 @@ public class Proxy {
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant","deleteTeacher",args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
-
         return serverReply.getReply();
     }
 

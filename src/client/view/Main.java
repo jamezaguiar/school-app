@@ -2,6 +2,7 @@ package client.view;
 
 import client.controller.Proxy;
 import client.model.Student;
+import client.model.Teacher;
 import de.vandermeer.asciitable.AsciiTable;
 import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 import org.stringtemplate.v4.ST;
@@ -29,17 +30,6 @@ public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         showMenu();
 
-
-        //System.out.println(proxy.createStudent("Jamerson", "123123123", "4188626"));
-        /*System.out.println(proxy.createStudent("Jamerson", "123123123", "418866"));
-        System.out.println(proxy.createTeacher("JV", "LANSOABRABA", "23546"));
-        System.out.println(proxy.readTeacher("23123546"));
-        System.out.println(proxy.deleteStudent("1231234123", "418866"));
-        System.out.println(proxy.deleteTeacher("LANSOA1BRABA","23546"));
-
-*/
-
-
     }
 
     public static void showMenu() throws IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, NoSuchMethodException, IllegalAccessException {
@@ -65,6 +55,30 @@ public class Main {
                     createStudent();
                     in.nextLine();
                     break;
+                case 4:
+                    deleteStudent();
+                    in.nextLine();
+                    break;
+                case 5:
+                    System.out.println("Digite o SIAPE do professor: ");
+                    showTeacher(in.nextLine());
+                    in.nextLine();
+                    break;
+                case 6:
+                    listTeachers();
+                    in.nextLine();
+                    break;
+                case 7:
+                    createTeacher();
+                    in.nextLine();
+                    break;
+                case 8:
+                    deleteTeacher();
+                    in.nextLine();
+                    break;
+                case 9:
+                    return;
+                default:
 
 
             }
@@ -162,4 +176,101 @@ public class Main {
         System.out.println(tb.render());
         System.out.println(hey.render());
     }
+
+    public static void deleteStudent() throws IOException {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Digite a matrícula do estudante: ");
+        String matriculation = in.nextLine();
+        System.out.println("Digite a senha do estudante: ");
+        String password = in.nextLine();
+
+
+        proxy.deleteStudent(password, matriculation);
+        AsciiTable tb = new AsciiTable();
+        ST st = new ST("Estudante deletado");
+
+        tb.addRule();
+        tb.addRow(st);
+        tb.addRule();
+
+        System.out.println(tb.render());
+    }
+
+    public static void showTeacher(String siape) throws IllegalAccessException, IOException, InstantiationException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
+        AsciiTable tb = new AsciiTable();
+        AsciiTable hey = new AsciiTable();
+        ST st = new ST("Dados do professor");
+        Teacher teacher = proxy.readTeacher(siape);
+
+        tb.addRule();
+        tb.addRow(st);
+        tb.addRule();
+        tb.addRule();
+        hey.addRow("Nome", teacher.getName());
+        hey.addRule();
+        hey.addRow("SIAPE", teacher.getSiape());
+        hey.addRule();
+
+        System.out.println(tb.render());
+        System.out.println(hey.render());
+    }
+
+    public static void listTeachers() throws IOException {
+        AsciiTable hey = new AsciiTable();
+        Teacher[] teachers = proxy.listTeachers();
+        for (Teacher teacher: teachers) {
+            hey.addRule();
+            hey.addRow("Nome", teacher.getName());
+            hey.addRule();
+            hey.addRow("SIAPE", teacher.getSiape());
+            hey.addRule();
+        }
+
+        System.out.println(hey.render());
+    }
+
+    public static void createTeacher() throws IOException {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Digite o nome do professor: ");
+        String name = in.nextLine();
+        System.out.println("Digite a senha do professor: ");
+        String password = in.nextLine();
+        System.out.println("Digite o SIAPE do professor: ");
+        String siape = in.nextLine();
+        Teacher teacher = proxy.createTeacher(name, password, siape);
+        AsciiTable tb = new AsciiTable();
+        AsciiTable hey = new AsciiTable();
+        ST st = new ST("Dados do professor criado");
+
+        tb.addRule();
+        tb.addRow(st);
+        tb.addRule();
+        tb.addRule();
+        hey.addRow("Nome", teacher.getName());
+        hey.addRule();
+        hey.addRow("SIAPE", teacher.getSiape());
+        hey.addRule();
+
+        System.out.println(tb.render());
+        System.out.println(hey.render());
+    }
+
+    public static void deleteTeacher() throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Digite o SIAPE do professor: ");
+        String siape = in.nextLine();
+        System.out.println("Digite a senha do professor: ");
+        String password = in.nextLine();
+
+        String response = proxy.deleteTeacher(password, siape);
+        AsciiTable tb = new AsciiTable();
+        ST st = new ST("Professor deletado");
+
+        tb.addRule();
+        tb.addRow(st);
+        tb.addRule();
+
+        System.out.println(tb.render());
+    }
+
 }

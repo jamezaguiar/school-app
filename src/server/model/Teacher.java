@@ -37,10 +37,9 @@ public class Teacher {
 
     @Override
     public String toString() {
-        return "Teacher{" +
-                "name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", siape=" + siape +
-                '}';
+        return "{" +
+                "\"name\":\"" + name + "\"" +
+                ",\n \"password\":\"" + password + "\"" +
+                ", \n\"siape\":\"" + siape + "\"\n}";
     }
 }
