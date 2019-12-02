@@ -1,10 +1,9 @@
 package server.connection;
 
-import client.model.Student;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,7 +17,7 @@ public class HTTPHandler {
 
     }
 
-    public String GETHandler( String query) throws IOException {
+    public String GETHandler(String query) throws IOException {
         URL route = new URL(this.url + query);
         HttpURLConnection con = (HttpURLConnection) route.openConnection();
         con.setRequestMethod("GET");
@@ -27,7 +26,7 @@ public class HTTPHandler {
         String input;
         StringBuilder content = new StringBuilder();
 
-        while((input = in.readLine()) != null){
+        while ((input = in.readLine()) != null) {
             content.append(input);
         }
 
@@ -52,7 +51,7 @@ public class HTTPHandler {
         String input;
         StringBuilder content = new StringBuilder();
 
-        while((input = in.readLine()) != null){
+        while ((input = in.readLine()) != null) {
             content.append(input);
         }
 
@@ -76,7 +75,7 @@ public class HTTPHandler {
         String input;
         StringBuilder content = new StringBuilder();
 
-        while((input = in.readLine()) != null){
+        while ((input = in.readLine()) != null) {
             content.append(input);
         }
 

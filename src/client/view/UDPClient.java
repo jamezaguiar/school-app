@@ -2,6 +2,7 @@ package client.view;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.concurrent.TimeoutException;
 
 public class UDPClient {
     private DatagramSocket clientSocket = new DatagramSocket();
@@ -19,11 +20,19 @@ public class UDPClient {
         clientSocket.send(sendPacket);
     }
 
-    public String getResponse() throws IOException {
+    public String getResponse() throws IOException, TimeoutException {
         byte[] receiveData = new byte[1024];
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         clientSocket.receive(receivePacket);
         return new String(receivePacket.getData(), receivePacket.getOffset(), receivePacket.getLength());
+    }
+
+    public DatagramSocket getClientSocket() {
+        return clientSocket;
+    }
+
+    public void setClientSocket(DatagramSocket clientSocket) {
+        this.clientSocket = clientSocket;
     }
 }
 

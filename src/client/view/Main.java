@@ -218,7 +218,7 @@ public class Main {
     public static void listTeachers() throws IOException {
         AsciiTable hey = new AsciiTable();
         Teacher[] teachers = proxy.listTeachers();
-        for (Teacher teacher: teachers) {
+        for (Teacher teacher : teachers) {
             hey.addRule();
             hey.addRow("Nome", teacher.getName());
             hey.addRule();

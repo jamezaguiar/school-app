@@ -11,8 +11,6 @@ import server.model.Student;
 import server.model.Teacher;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class Servant {
@@ -33,13 +31,13 @@ public class Servant {
     }
 
     Student readStudent(String matriculation) throws StudentNotFoundException, IOException {
-        HTTPHandler http =  new HTTPHandler();
+        HTTPHandler http = new HTTPHandler();
         String response = http.GETHandler("students/" + matriculation);
         return new Gson().fromJson(response, Student.class);
     }
 
     Student[] listStudents() throws IOException {
-        HTTPHandler http =  new HTTPHandler();
+        HTTPHandler http = new HTTPHandler();
         String response = http.GETHandler("students");
         return new Gson().fromJson(response, Student[].class);
     }
@@ -66,16 +64,17 @@ public class Servant {
     }
 
     Teacher readTeacher(String siape) throws TeacherNotFoundException, IOException {
-        HTTPHandler http =  new HTTPHandler();
+        HTTPHandler http = new HTTPHandler();
         String response = http.GETHandler("teachers/" + siape);
         return new Gson().fromJson(response, Teacher.class);
     }
 
     Teacher[] listTeachers() throws IOException {
-        HTTPHandler http =  new HTTPHandler();
+        HTTPHandler http = new HTTPHandler();
         String response = http.GETHandler("teachers");
         return new Gson().fromJson(response, Teacher[].class);
     }
+
     String deleteTeacher(String password, String siape) throws TeacherNotFoundException, IOException {
         HTTPHandler http = new HTTPHandler();
         JsonObject teacherDelete = new JsonObject();

@@ -4,16 +4,15 @@ import client.model.*;
 import client.view.UDPClient;
 import com.google.gson.Gson;
 
-import javax.sound.sampled.Line;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeoutException;
 
 public class Proxy {
-    private int requestId = 0;
+    private static int requestId = 0;
     private UDPClient udpClient = new UDPClient();
 
     public Proxy() throws SocketException, UnknownHostException {
@@ -21,8 +20,23 @@ public class Proxy {
 
     public String doOperation(String objectReference, String methodId, String arguments) throws IOException {
         String data = packJSON(objectReference, methodId, arguments);
-        udpClient.sendRequest(data);
-        Message reply = unpackJSON(udpClient.getResponse());
+        requestId++;
+        Message reply = null;
+        while (reply == null) {
+            udpClient.sendRequest(data);
+            udpClient.getClientSocket().setSoTimeout(100);
+            try {
+                reply = unpackJSON(udpClient.getResponse());
+            } catch (TimeoutException e) {
+                udpClient.sendRequest(data);
+            }
+            assert reply != null;
+            if (reply.getRequestId() == requestId) {
+                return reply.getArguments();
+            } else {
+                reply = null;
+            }
+        }
         return reply.getArguments();
     }
 
@@ -40,7 +54,7 @@ public class Proxy {
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant", "readStudent", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
-        String json = serverReply.getReply() ;
+        String json = serverReply.getReply();
         return new Gson().fromJson(json, Student.class);
     }
 
@@ -49,15 +63,15 @@ public class Proxy {
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant", "listStudents", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
-        String json = serverReply.getReply() ;
+        String json = serverReply.getReply();
         return new Gson().fromJson(json, Student[].class);
     }
 
 
     public String deleteStudent(String password, String matriculation) throws IOException {
-        Information information = new Information(password,matriculation);
+        Information information = new Information(password, matriculation);
         String args = new Gson().toJson(information);
-        String reply = doOperation("Servant","deleteStudent",args);
+        String reply = doOperation("Servant", "deleteStudent", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
         return serverReply.getReply();
     }
@@ -76,7 +90,7 @@ public class Proxy {
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant", "readTeacher", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
-        String json = serverReply.getReply() ;
+        String json = serverReply.getReply();
         return new Gson().fromJson(json, Teacher.class);
     }
 
@@ -85,20 +99,20 @@ public class Proxy {
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant", "listTeachers", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
-        String json = serverReply.getReply() ;
+        String json = serverReply.getReply();
         return new Gson().fromJson(json, Teacher[].class);
     }
 
     public String deleteTeacher(String password, String siape) throws IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Information information = new Information(password,siape);
+        Information information = new Information(password, siape);
         String args = new Gson().toJson(information);
-        String reply = doOperation("Servant","deleteTeacher",args);
+        String reply = doOperation("Servant", "deleteTeacher", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
         return serverReply.getReply();
     }
 
     private String packJSON(String objectReference, String methodId, String arguments) {
-        return new Gson().toJson(new Message(0, 0, objectReference, methodId, arguments));
+        return new Gson().toJson(new Message(0, requestId, objectReference, methodId, arguments));
     }
 
     private Message unpackJSON(String message) {

@@ -1,20 +1,20 @@
 package server.view;
 
 import com.google.gson.Gson;
-import server.connection.HTTPHandler;
 import server.controller.Dispatcher;
 import server.model.Message;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.MalformedURLException;
+import java.util.HashMap;
 
 public class UDPServer extends Thread {
     private DatagramPacket receivePacket;
     private DatagramPacket sendPacket;
     private DatagramSocket serverSocket;
     private Dispatcher dispatcher = new Dispatcher();
+    private HashMap<String, String> responses = new HashMap<String, String>();
 
 
     public UDPServer(DatagramSocket serverSocket) {
@@ -23,7 +23,6 @@ public class UDPServer extends Thread {
     }
 
     public static void main(String[] args) throws IOException {
-
 
 
         try {
@@ -39,17 +38,25 @@ public class UDPServer extends Thread {
 
     @Override
     public void run() {
-        while(true)
-        try {
-            while (true) {
-                Message request = unpackRequest(getRequest());
-                System.out.println("Request from " + receivePacket.getAddress() + ": " + request);
-                String result = dispatcher.invoke(request);
-                sendResponse(packResponse(result, request.getRequestId()));
+        while (true)
+            try {
+                while (true) {
+                    Message request = unpackRequest(getRequest());
+                    String key = receivePacket.getAddress() + "" + receivePacket.getPort() + "" + request.getRequestId();
+                    if (responses.containsKey(key)) {
+                        sendResponse(responses.get(key));
+                    } else {
+                        System.out.println("Request from " + receivePacket.getAddress() + ": " + request);
+                        String result = dispatcher.invoke(request);
+                        String response = packResponse(result, request.getRequestId());
+                        responses.clear();
+                        responses.put(key, response);
+                        sendResponse(response);
+                    }
+                }
+            } catch (NoSuchMethodException | IOException ex) {
+                ex.printStackTrace();
             }
-        } catch (NoSuchMethodException | IOException ex) {
-            ex.printStackTrace();
-        }
     }
 
     public String getRequest() throws IOException {

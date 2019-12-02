@@ -48,7 +48,6 @@ public class Information {
     }
 
 
-
     @Override
     public String toString() {
         return "Information{" +
