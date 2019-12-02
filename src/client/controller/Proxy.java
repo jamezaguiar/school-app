@@ -29,12 +29,13 @@ public class Proxy {
         return reply.getArguments();
     }
 
-    public String createStudent(String name, String password, String matriculation) throws IOException {
+    public Student createStudent(String name, String password, String matriculation) throws IOException {
         Information information = new Information(name, password, matriculation);
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant", "createStudent", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
-        return serverReply.getReply();
+        String json = serverReply.getReply();
+        return new Gson().fromJson(json, Student.class);
     }
 
     public Student readStudent(String matriculation) throws IOException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException {
@@ -46,12 +47,13 @@ public class Proxy {
         return new Gson().fromJson(json, Student.class);
     }
 
-    public String listStudents() throws IOException {
+    public Student[] listStudents() throws IOException {
         Information information = new Information();
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant", "listStudents", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
-        return serverReply.getReply();
+        String json = serverReply.getReply() ;
+        return new Gson().fromJson(json, Student[].class);
     }
 
 
