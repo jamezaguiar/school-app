@@ -26,7 +26,6 @@ public class Servant {
 
         HTTPHandler http = new HTTPHandler();
         String response = http.POSTHandler(studentPost.toString(), "students");
-
         return new Gson().fromJson(response, Student.class);
     }
 

@@ -24,7 +24,7 @@ public class Proxy {
         Message reply = null;
         while (reply == null) {
             udpClient.sendRequest(data);
-            udpClient.getClientSocket().setSoTimeout(100);
+            udpClient.getClientSocket().setSoTimeout(1000);
             try {
                 reply = unpackJSON(udpClient.getResponse());
             } catch (TimeoutException e) {
@@ -34,7 +34,7 @@ public class Proxy {
             if (reply.getRequestId() == requestId) {
                 return reply.getArguments();
             } else {
-                reply = null;
+                continue;
             }
         }
         return reply.getArguments();
