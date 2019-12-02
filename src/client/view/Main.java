@@ -60,13 +60,19 @@ public class Main {
                 case 2:
                     listStudents();
                     in.nextLine();
+                    break;
+                case 3:
+                    createStudent();
+                    in.nextLine();
+                    break;
+
 
             }
 
         }
     }
 
-    public static void renderTable(){
+    public static void renderTable() {
         AsciiTable tb = new AsciiTable();
         AsciiTable hey = new AsciiTable();
         ST st = new ST("Sistema Escolar - School App");
@@ -97,6 +103,7 @@ public class Main {
         System.out.println(tb.render());
         System.out.println(hey.render());
     }
+
     public static void showStudent(String matriculation) throws IllegalAccessException, IOException, InstantiationException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
         AsciiTable tb = new AsciiTable();
         AsciiTable hey = new AsciiTable();
@@ -127,6 +134,32 @@ public class Main {
             hey.addRule();
         }
 
+        System.out.println(hey.render());
+    }
+
+    public static void createStudent() throws IOException {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Digite o nome do estudante: ");
+        String name = in.nextLine();
+        System.out.println("Digite a senha do estudante: ");
+        String password = in.nextLine();
+        System.out.println("Digite a matrícula do estudante: ");
+        String matriculation = in.nextLine();
+        Student student = proxy.createStudent(name, password, matriculation);
+        AsciiTable tb = new AsciiTable();
+        AsciiTable hey = new AsciiTable();
+        ST st = new ST("Dados do estudante criado");
+
+        tb.addRule();
+        tb.addRow(st);
+        tb.addRule();
+        tb.addRule();
+        hey.addRow("Nome", student.getName());
+        hey.addRule();
+        hey.addRow("Matrícula", student.getMatriculation());
+        hey.addRule();
+
+        System.out.println(tb.render());
         System.out.println(hey.render());
     }
 }
