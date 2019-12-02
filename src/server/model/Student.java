@@ -36,11 +36,12 @@ public class Student {
     }
 
     @Override
+
+
     public String toString() {
-        return "Student{" +
-                "name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", matriculation=" + matriculation +
-                '}';
+        return "{" +
+                "\"name\":\"" + name + "\"" +
+                ",\n \"password\":\"" + password + "\"" +
+                ", \n\"matriculation\":\"" + matriculation + "\"\n}";
     }
 }

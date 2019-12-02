@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="antlr-runtime-3.5.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Documents/JAR-Files/antlr-runtime-3.5.2.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/JAR-Files/antlr4-4.5.1.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/JAR-Files/ascii-utf-themes-0.0.1.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/JAR-Files/asciitable-0.3.2.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/JAR-Files/char-translation-0.0.2.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/JAR-Files/commons-lang3-3.4.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/JAR-Files/skb-interfaces-0.0.1.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/JAR-Files/slf4j-api-1.7.12.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/JAR-Files/ST4-4.0.8.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

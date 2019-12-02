@@ -3,11 +3,14 @@ package client.controller;
 import client.model.Information;
 import client.model.Message;
 import client.model.Reply;
+import client.model.Student;
 import client.view.UDPClient;
 import com.google.gson.Gson;
 
 import javax.sound.sampled.Line;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -34,12 +37,13 @@ public class Proxy {
         return serverReply.getReply();
     }
 
-    public String readStudent(String matriculation) throws IOException {
+    public Student readStudent(String matriculation) throws IOException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException {
         Information information = new Information(matriculation);
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant", "readStudent", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
-        return serverReply.getReply();
+        String json = serverReply.getReply() ;
+        return new Gson().fromJson(json, Student.class);
     }
 
     public String listStudents() throws IOException {
@@ -75,11 +79,12 @@ public class Proxy {
         return serverReply.getReply();
     }
 
-    public String deleteTeacher(String password, String siape) throws IOException {
+    public String deleteTeacher(String password, String siape) throws IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Information information = new Information(password,siape);
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant","deleteTeacher",args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
+
         return serverReply.getReply();
     }
 
