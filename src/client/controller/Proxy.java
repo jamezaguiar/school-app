@@ -40,22 +40,30 @@ public class Proxy {
         return reply.getArguments();
     }
 
-    public Student createStudent(String name, String password, String matriculation) throws IOException {
+    public Student createStudent(String name, String password, String matriculation) throws Exception {
         Information information = new Information(name, password, matriculation);
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant", "createStudent", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
         String json = serverReply.getReply();
-        return new Gson().fromJson(json, Student.class);
+        try {
+            return new Gson().fromJson(json, Student.class);
+        } catch (Exception e) {
+            throw new Exception("Erro de requisição ao banco de dados. Verifique os dados inseridos e tente novamente.");
+        }
     }
 
-    public Student readStudent(String matriculation) throws IOException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException {
+    public Student readStudent(String matriculation) throws Exception {
         Information information = new Information(matriculation);
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant", "readStudent", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
         String json = serverReply.getReply();
-        return new Gson().fromJson(json, Student.class);
+        try {
+            return new Gson().fromJson(json, Student.class);
+        } catch (Exception e) {
+            throw new Exception("Erro de requisição ao banco de dados. Verifique os dados inseridos e tente novamente.");
+        }
     }
 
     public Student[] listStudents() throws IOException {
@@ -76,22 +84,30 @@ public class Proxy {
         return serverReply.getReply();
     }
 
-    public Teacher createTeacher(String name, String password, String siape) throws IOException {
+    public Teacher createTeacher(String name, String password, String siape) throws Exception {
         Information information = new Information(name, password, siape);
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant", "createTeacher", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
         String json = serverReply.getReply();
-        return new Gson().fromJson(json, Teacher.class);
+        try {
+            return new Gson().fromJson(json, Teacher.class);
+        } catch (Exception e) {
+            throw new Exception("Erro de requisição ao banco de dados. Verifique os dados inseridos e tente novamente.");
+        }
     }
 
-    public Teacher readTeacher(String siape) throws IOException {
+    public Teacher readTeacher(String siape) throws Exception {
         Information information = new Information(siape);
         String args = new Gson().toJson(information);
         String reply = doOperation("Servant", "readTeacher", args);
         Reply serverReply = new Gson().fromJson(reply, Reply.class);
         String json = serverReply.getReply();
-        return new Gson().fromJson(json, Teacher.class);
+        try {
+            return new Gson().fromJson(json, Teacher.class);
+        } catch (Exception e) {
+            throw new Exception("Erro de requisição ao banco de dados. Verifique os dados inseridos e tente novamente.");
+        }
     }
 
     public Teacher[] listTeachers() throws IOException {

@@ -45,44 +45,51 @@ public class Main {
                 case 1:
                     System.out.println("Digite a matrícula do estudante: ");
                     showStudent(in.nextLine());
+                    System.out.print("Pressione enter para continuar...");
                     in.nextLine();
                     break;
                 case 2:
                     listStudents();
+                    System.out.print("Pressione enter para continuar...");
                     in.nextLine();
                     break;
                 case 3:
                     createStudent();
+                    System.out.print("Pressione enter para continuar...");
                     in.nextLine();
                     break;
                 case 4:
                     deleteStudent();
+                    System.out.print("Pressione enter para continuar...");
                     in.nextLine();
                     break;
                 case 5:
                     System.out.println("Digite o SIAPE do professor: ");
                     showTeacher(in.nextLine());
+                    System.out.print("Pressione enter para continuar...");
                     in.nextLine();
                     break;
                 case 6:
                     listTeachers();
+                    System.out.print("Pressione enter para continuar...");
                     in.nextLine();
                     break;
                 case 7:
                     createTeacher();
+                    System.out.print("Pressione enter para continuar...");
                     in.nextLine();
                     break;
                 case 8:
                     deleteTeacher();
+                    System.out.print("Pressione enter para continuar...");
                     in.nextLine();
                     break;
                 case 9:
                     return;
                 default:
-
-
+                    System.out.println("Opção inválida! Utilize números de 1 a 9");
+                    break;
             }
-
         }
     }
 
@@ -122,7 +129,13 @@ public class Main {
         AsciiTable tb = new AsciiTable();
         AsciiTable hey = new AsciiTable();
         ST st = new ST("Dados do Aluno Específico");
-        Student student = proxy.readStudent(matriculation);
+        Student student = null;
+        try {
+            student = proxy.readStudent(matriculation);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
+        }
 
         tb.addRule();
         tb.addRow(st);
@@ -159,7 +172,13 @@ public class Main {
         String password = in.nextLine();
         System.out.println("Digite a matrícula do estudante: ");
         String matriculation = in.nextLine();
-        Student student = proxy.createStudent(name, password, matriculation);
+        Student student = null;
+        try {
+            student = proxy.createStudent(name, password, matriculation);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
+        }
         AsciiTable tb = new AsciiTable();
         AsciiTable hey = new AsciiTable();
         ST st = new ST("Dados do estudante criado");
@@ -185,9 +204,9 @@ public class Main {
         String password = in.nextLine();
 
 
-        proxy.deleteStudent(password, matriculation);
+        String result = proxy.deleteStudent(password, matriculation);
         AsciiTable tb = new AsciiTable();
-        ST st = new ST("Estudante deletado");
+        ST st = new ST(result.contains("Exception") ? "Erro de requisição ao banco de dados. Verifique os dados inseridos e tente novamente." : "Estudante deletado");
 
         tb.addRule();
         tb.addRow(st);
@@ -200,8 +219,13 @@ public class Main {
         AsciiTable tb = new AsciiTable();
         AsciiTable hey = new AsciiTable();
         ST st = new ST("Dados do professor");
-        Teacher teacher = proxy.readTeacher(siape);
-
+        Teacher teacher = null;
+        try {
+            teacher = proxy.readTeacher(siape);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
+        }
         tb.addRule();
         tb.addRow(st);
         tb.addRule();
@@ -237,7 +261,13 @@ public class Main {
         String password = in.nextLine();
         System.out.println("Digite o SIAPE do professor: ");
         String siape = in.nextLine();
-        Teacher teacher = proxy.createTeacher(name, password, siape);
+        Teacher teacher = null;
+        try {
+            teacher = proxy.createTeacher(name, password, siape);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
+        }
         AsciiTable tb = new AsciiTable();
         AsciiTable hey = new AsciiTable();
         ST st = new ST("Dados do professor criado");
@@ -262,9 +292,9 @@ public class Main {
         System.out.println("Digite a senha do professor: ");
         String password = in.nextLine();
 
-        String response = proxy.deleteTeacher(password, siape);
+        String result = proxy.deleteTeacher(password, siape);
         AsciiTable tb = new AsciiTable();
-        ST st = new ST("Professor deletado");
+        ST st = new ST(result.contains("Exception") ? "Erro de requisição ao banco de dados. Verifique os dados inseridos e tente novamente." : "Professor deletado");
 
         tb.addRule();
         tb.addRow(st);

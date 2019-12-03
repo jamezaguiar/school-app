@@ -1,10 +1,6 @@
 package server.controller;
 
 import com.google.gson.Gson;
-import server.exception.StudentAlreadyExistsException;
-import server.exception.StudentNotFoundException;
-import server.exception.TeacherAlreadyExistsException;
-import server.exception.TeacherNotFoundException;
 import server.model.Information;
 import server.model.Reply;
 import server.model.Student;
@@ -32,7 +28,7 @@ public class SkeletonServant {
         information = new Gson().fromJson(args, Information.class);
         try {
             student = servant.createStudent(information.getName(), information.getPassword(), information.getMatriculationOrSiape());
-        } catch (StudentAlreadyExistsException | IOException e) {
+        } catch (IOException e) {
             System.out.println("Exception: " + e.getMessage());
             return packJson("Exception: " + e.getMessage());
         }
@@ -43,7 +39,7 @@ public class SkeletonServant {
         information = new Gson().fromJson(args, Information.class);
         try {
             student = servant.readStudent(information.getMatriculationOrSiape());
-        } catch (StudentNotFoundException | IOException e) {
+        } catch (IOException e) {
             System.out.println("Exception: " + e.getMessage());
             return packJson("Exception: " + e.getMessage());
         }
@@ -66,7 +62,7 @@ public class SkeletonServant {
         information = new Gson().fromJson(args, Information.class);
         try {
             result = servant.deleteStudent(information.getPassword(), information.getMatriculationOrSiape());
-        } catch (StudentNotFoundException | IOException e) {
+        } catch (IOException e) {
             System.out.println("Exception: " + e.getMessage());
             return packJson("Exception: " + e.getMessage());
         }
@@ -77,7 +73,7 @@ public class SkeletonServant {
         information = new Gson().fromJson(args, Information.class);
         try {
             teacher = servant.createTeacher(information.getName(), information.getPassword(), information.getMatriculationOrSiape());
-        } catch (TeacherAlreadyExistsException | IOException e) {
+        } catch (IOException e) {
             System.out.println("Exception: " + e.getMessage());
             return packJson("Exception: " + e.getMessage());
         }
@@ -88,7 +84,7 @@ public class SkeletonServant {
         information = new Gson().fromJson(args, Information.class);
         try {
             teacher = servant.readTeacher(information.getMatriculationOrSiape());
-        } catch (TeacherNotFoundException | IOException e) {
+        } catch (IOException e) {
             System.out.println("Exception: " + e.getMessage());
             return packJson("Exception: " + e.getMessage());
         }
@@ -111,7 +107,7 @@ public class SkeletonServant {
         information = new Gson().fromJson(args, Information.class);
         try {
             result = servant.deleteTeacher(information.getPassword(), information.getMatriculationOrSiape());
-        } catch (TeacherNotFoundException | IOException e) {
+        } catch (IOException e) {
             System.out.println("Exception: " + e.getMessage());
             return packJson("Exception: " + e.getMessage());
         }
